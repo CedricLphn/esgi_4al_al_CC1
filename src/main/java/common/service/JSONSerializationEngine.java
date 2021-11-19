@@ -1,4 +1,4 @@
-package shopping.kernel.service;
+package common.service;
 
 import com.google.gson.Gson;
 

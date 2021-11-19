@@ -1,4 +1,4 @@
-package shopping.kernel.annotations;
+package common.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,6 @@
-package shopping.kernel;
+package common;
+
+import common.NoSuchEntityException;
 
 public interface Repository<T, E> {
     T nextId();

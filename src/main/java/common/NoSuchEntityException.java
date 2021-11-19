@@ -1,10 +1,10 @@
-package shopping.kernel;
+package common;
 
 public final class NoSuchEntityException extends RuntimeException {
 
     public NoSuchEntityException(String message) { super(message); }
 
-    public static NoSuchEntityException withId(String id) { // TODO
+    public static NoSuchEntityException withId(int id) { // TODO
         return new NoSuchEntityException(String.format("No entity found with id %d", id));
     }
 

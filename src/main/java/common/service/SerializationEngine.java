@@ -1,4 +1,4 @@
-package shopping.kernel.service;
+package common.service;
 
 import java.util.function.Function;
 
