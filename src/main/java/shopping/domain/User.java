@@ -5,10 +5,10 @@ import common.annotations.Entity;
 @Entity
 public final class User {
     public int id;
-    private String firstname;
-    private String lastname;
-    private int age;
-    private String cardNumber; // Todo : Card Builder ??
+    private final String firstname;
+    private final String lastname;
+    private final int age;
+    private final String cardNumber; // Todo : Card Builder ??
 
     public User(String firstname, String lastname, int age, String cardNumber) {
         this.firstname = firstname;

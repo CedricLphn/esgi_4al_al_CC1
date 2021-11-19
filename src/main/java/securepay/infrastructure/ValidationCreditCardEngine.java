@@ -9,7 +9,6 @@ public class ValidationCreditCardEngine implements Predicate<CreditCard> {
     private static final ValidationCreditCardEngine INSTANCE = new ValidationCreditCardEngine();
 
     private ValidationCreditCardEngine() {
-        throw new AssertionError();
     }
 
     public static ValidationCreditCardEngine getInstance() {

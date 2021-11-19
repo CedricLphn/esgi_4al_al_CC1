@@ -12,7 +12,7 @@ public class CardTypeEngine {
     }
 
     public static CardType detect(CreditCard creditCard) {
-        long number = creditCard.getNumber(); // TODO : mettre directement en string ?
+        String number = creditCard.getNumber(); // TODO : mettre directement en string ?
         String s = String.valueOf(number);
         if(s.startsWith("4")) {
             return CardType.VISA;
