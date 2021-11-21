@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 public final class ConsoleLogger implements Log {
 
-    private static final Logger LOGGER = Logger.getLogger(ConsoleLogger.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Class.class.getSimpleName());
 
     @Override
     public void log(String message) {

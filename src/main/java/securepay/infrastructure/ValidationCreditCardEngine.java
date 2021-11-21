@@ -1,6 +1,8 @@
 package securepay.infrastructure;
 
-import securepay.domain.CreditCard;
+import securepay.domain.entity.CreditCard;
+import securepay.domain.utils.CardType;
+import securepay.infrastructure.engine.CardTypeEngine;
 
 import java.util.function.Predicate;
 

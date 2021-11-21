@@ -1,7 +1,7 @@
 package common.infrastructure;
 
-import common.NoSuchEntityException;
-import common.Repository;
+import common.exception.NoSuchEntityException;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class InMemoryRepositoryAbstract<T> implements Repository<Integer, T> {
 
     private final AtomicInteger size = new AtomicInteger(0);
-    private final Map<Integer, T> list = new ConcurrentHashMap<Integer, T>();
+    protected final Map<Integer, T> list = new ConcurrentHashMap<Integer, T>();
 
     @Override
     public Integer nextId() {
@@ -29,5 +29,22 @@ public abstract class InMemoryRepositoryAbstract<T> implements Repository<Intege
     @Override
     public void delete(Integer id) {
         list.remove(id);
+    }
+
+    @Override
+    public void update(Integer id, T data) {
+        list.put(id, data);
+    }
+
+    public Map<Integer, T> findAll() {
+        return list;
+    }
+
+    @Override
+    public String toString() {
+        return "InMemoryRepositoryAbstract{" +
+                "size=" + size +
+                ", list=" + list +
+                '}';
     }
 }
