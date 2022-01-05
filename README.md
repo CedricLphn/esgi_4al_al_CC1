@@ -8,9 +8,9 @@ Pour Monsieur Boissinot
 - [Projet](#projet)
 - [Librairies](#librairies)
 - [Modules](#modules)
-    * [package common](#package-common)
-    * [shopping](#shopping)
-        + [securepay](#securepay)
+    * [package fr.leprohon.esgi.al4.al.kernel](#package-common)
+    * [fr.leprohon.esgi.al4.al.shopping](#shopping)
+        + [fr.leprohon.esgi.al4.al.securepay](#securepay)
 - [Axe d'amélioration](#axe-d-am-lioration)
 
 ## Rappel
@@ -46,7 +46,7 @@ Vous trouverez en fin de page le diagramme de classe.
 
 Avant de continuer, j'ai fait un package java commun qui regroupe les classes communes utilisées par les modules.
 
-## package common
+## package fr.leprohon.esgi.al4.al.kernel
 
 J'utilise les annotations pour les entités et les repository afin de mieux retrouver mes entités et mes repository mais
 aussi dans un soucis de nommage de classe. En effet, en utilisant les annotations, j'évite de mettre *Entity*
@@ -54,14 +54,14 @@ ou *Repository* comme suffixe.
 
 J'utilise aussi une exception lorsque je n'arrive pas à trouver un contrat.
 
-Également, je génère à la volée des *InMemory database* car *shopping* et *securepay* utilise des bases de données. Cela
+Également, je génère à la volée des *InMemory database* car *fr.leprohon.esgi.al4.al.shopping* et *fr.leprohon.esgi.al4.al.securepay* utilise des bases de données. Cela
 permettra plus tard de ne pas s'embêter à recréer des *InMemory database*
 
 Enfin, j'utilise *GSON* pour créer mon marshaller, cela permettra de diffuser des informations via l'Event Bus.
 J'utilise une factory dans ma serialisation pour permettre de l'écrire plus rapidement et éviter de faire de la
 redondance de code
 
-## shopping
+## fr.leprohon.esgi.al4.al.shopping
 
 Pour créer un contrat, j'utilise le design pattern *Faceted builder* qui permet de séparer des informations en "
 catégories"
@@ -91,16 +91,16 @@ J'utilise ```ContratService``` qui est dépendant de ```ContratRepository``` qui
 métier. J'ai préféré utiliser un repository plutôt qu'un DAO car cela correspond bien à l'architecture DDD et cela
 sépare la technicité informatique à celle du métier.
 
-J'utilise aussi des *handler* pour le traitement d'un contrat lorsque celle-ci à été traité par *securepay*. Pourquoi ce
+J'utilise aussi des *handler* pour le traitement d'un contrat lorsque celle-ci à été traité par *fr.leprohon.esgi.al4.al.securepay*. Pourquoi ce
 choix ? Tout simplement pour rendre malléable le code, ainsi, si le métier change de workflow, il pourra le faire sans
 aller très loin dans la technicité. (voir SubscriptionHandler.java, UpdateObjectStatusContract.java)
 
-## securepay
+## fr.leprohon.esgi.al4.al.securepay
 
 Module qui autorise la transaction ou non du contrat. Il historise aussi la transaction via au repository
 HistoryTransaction Un module de test à été créer pour le développement ```DummyPaymentTranasction``` qui accepte toutes
 les transactions. Évidemment, elle est facilement remplaçable car elle hérite de ```PaymentTransaction``` et elle est
-appelé sous la forme d'event (via à l'injection de dépendance).
+appelé sous la forme d'fr.leprohon.esgi.al4.al.event (via à l'injection de dépendance).
 
 # Axe d'amélioration
 
@@ -108,7 +108,7 @@ Conscient que ce projet est loin d'être parfait, nous pouvons parfaitement amé
 
 - Mettre un peu plus d'annotation par exemple ```@Service```
 - Moins de dépendance circulaire entre les différents artefacts logiciels
-- Ajouter le schéma de l'``observer`` pour rendre plus qualitatif l'utilisation de l'event bus.
+- Ajouter le schéma de l'``observer`` pour rendre plus qualitatif l'utilisation de l'fr.leprohon.esgi.al4.al.event bus.
 
 ## Diagramme de classe
 

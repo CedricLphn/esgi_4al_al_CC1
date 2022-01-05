@@ -1,14 +1,14 @@
 package fr.leprohon.esgi.al4.al;
 
 import org.junit.jupiter.api.Test;
-import securepay.domain.entity.CreditCard;
-import securepay.infrastructure.ValidationCreditCardEngine;
-import shopping.domain.entity.Contract;
-import shopping.domain.repository.ContractRepository;
-import shopping.domain.utils.ContractBuilder;
-import shopping.domain.utils.ContractType;
-import shopping.domain.utils.Status;
-import shopping.infrastructure.repository.InMemoryContract;
+import fr.leprohon.esgi.al4.al.securepay.domain.entity.CreditCard;
+import fr.leprohon.esgi.al4.al.securepay.infrastructure.ValidationCreditCardEngine;
+import fr.leprohon.esgi.al4.al.shopping.domain.entity.Contract;
+import fr.leprohon.esgi.al4.al.shopping.domain.repository.ContractRepository;
+import fr.leprohon.esgi.al4.al.shopping.domain.utils.ContractBuilder;
+import fr.leprohon.esgi.al4.al.shopping.domain.utils.ContractType;
+import fr.leprohon.esgi.al4.al.shopping.domain.utils.Status;
+import fr.leprohon.esgi.al4.al.shopping.infrastructure.repository.InMemoryContractRepository;
 
 import java.time.ZonedDateTime;
 
@@ -16,11 +16,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ShoppingTest {
 
-    ContractRepository contractRepository = new InMemoryContract();
+    ContractRepository contractRepository = new InMemoryContractRepository();
 
     @Test
     void GivenCreateAContractWhenNothingReturnContractInDatabase() {
-        contractRepository = new InMemoryContract();
+        contractRepository = new InMemoryContractRepository();
 
         ContractBuilder contractBuilder = new ContractBuilder();
         Contract contract = contractBuilder
