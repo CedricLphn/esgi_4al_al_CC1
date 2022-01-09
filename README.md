@@ -1,4 +1,4 @@
-# ESGI Architecture logicielle - CC1
+# ESGI Architecture logicielle - CC2    
 
 Par LEPROHON Cédric
 
@@ -8,39 +8,43 @@ Pour Monsieur Boissinot
 - [Projet](#projet)
 - [Librairies](#librairies)
 - [Modules](#modules)
-    * [package fr.leprohon.esgi.al4.al.kernel](#package-common)
-    * [fr.leprohon.esgi.al4.al.shopping](#shopping)
-        + [fr.leprohon.esgi.al4.al.securepay](#securepay)
+    * [package fr.leprohon.esgi.al4.al.kernel](#package-frleprohonesgial4alkernel)
+    * [fr.leprohon.esgi.al4.al.shopping](#frleprohonesgial4alshopping)
+    * [fr.leprohon.esgi.al4.al.securepay](#frleprohonesgial4alsecurepay)
+- [Call API](#call-api)
+    * [Shopping](#shopping)
+        + [Retrouver un contrat](#retrouver-un-contrat)
+        + [Ajouter un contrat](#ajouter-un-contrat)
+    * [SecurePay](#securepay)
+        + [Créer une transaction](#cr-er-une-transaction)
 - [Axe d'amélioration](#axe-d-am-lioration)
+- [Diagramme de classe](#diagramme-de-classe)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 ## Rappel
 
-Conception & développement d’un module logiciel de gestion des inscriptions d’une solution e-commerce, comportant une
-fonction d’ajout d’un membre.
+- Reprise du sujet fonctionnel et du scénario métier du CC1 (souscription d’un membre à l’application TradeMe)
+- Cas de l’abonnement: Demande d’un paiement fixe chaque mois
 
-- Respect des patterns logiciels et des concepts objets (pattern repository, injection de dépendances, programmation par
-  interfaces, etc)
-- Respect de ‘l’intention’ dans le code. Justifier certains critères de qualité.
-- Langage: Java 11 ou +.
-
-Pour plus d'information, consulter le fichier <u>CC1.pdf</u>
+Pour plus d'information, consulter le fichier <u>CC2.pdf</u>
 
 # Projet
 
-Le projet à été produit en architecture en DDD adapté au contexte du TP.
+Le CC2 est une refonte en profondeur du CC1, respectant (à peu près) l'architecture DDD et le CQS
 
-Le projet communique avec trois module:
+Le projet communique avec deux modules :
 
 1. Shopping: Module principal qui permet de souscrire à deux types de contrats (CONTRACTOR, TRADESMAN)
 2. Securepay: Module qui valide ou non la transaction
-3. Event: architecture *messaging* permettant aux modules de communiquer.
 
 Vous trouverez en fin de page le diagramme de classe.
 
 # Librairies
 
 * JUnit
-* GSON
+* SpringBoot
 
 # Modules
 
@@ -56,10 +60,6 @@ J'utilise aussi une exception lorsque je n'arrive pas à trouver un contrat.
 
 Également, je génère à la volée des *InMemory database* car *fr.leprohon.esgi.al4.al.shopping* et *fr.leprohon.esgi.al4.al.securepay* utilise des bases de données. Cela
 permettra plus tard de ne pas s'embêter à recréer des *InMemory database*
-
-Enfin, j'utilise *GSON* pour créer mon marshaller, cela permettra de diffuser des informations via l'Event Bus.
-J'utilise une factory dans ma serialisation pour permettre de l'écrire plus rapidement et éviter de faire de la
-redondance de code
 
 ## fr.leprohon.esgi.al4.al.shopping
 
@@ -102,14 +102,95 @@ HistoryTransaction Un module de test à été créer pour le développement ```D
 les transactions. Évidemment, elle est facilement remplaçable car elle hérite de ```PaymentTransaction``` et elle est
 appelé sous la forme d'fr.leprohon.esgi.al4.al.event (via à l'injection de dépendance).
 
+# Call API
+
+La nouveauté est l'intégration de quelques calls api
+
+## Shopping
+### Retrouver un contrat
+Type: ```GET```
+
+URL : ```api/v1/contract/1```
+
+Résultat:
+```json
+{
+  "id": "7c9f7c8f-035c-4c0e-97cf-90a607b39dbb",
+  "type": "TRADESMAN",
+  "user": {
+    "firstname": "Leprohon",
+    "lastname": "Cedric",
+    "age": 27,
+    "creditCard": {
+      "number": "4485678386265192",
+      "expiration": "2022-01-09T23:05:08.2778522+01:00",
+      "CVV": 123
+    }
+  },
+  "amount": 19,
+  "expiration": "2022-02-09T22:05:20.417+00:00",
+  "paymentStatus": "ACCEPTED"
+}
+```
+
+
+**A noter que la vérification du payement via securepay s'effectue avec un appel REST HTTP (pour plus de réalisme)**
+
+### Ajouter un contrat
+Type: ```POST```
+
+URL : ```api/v1/contract/create```
+
+Body Request :
+```json
+{
+  "type": "TRADESMAN",
+  "user": {
+    "firstname": "Gustin",
+    "lastname": "Florianne",
+    "age": 48
+  },
+  "creditcard": {
+    "number": "4485678386265192",
+    "expiration": "2022-01-06T21:16:00.2228243+01:00",
+    "cvv": 1234
+  },
+  "amount": 19,
+  "subscription": false // facultatif (permet d'avoir une souscription définitif)
+}
+```
+
+Réponse:
+```201 CREATED``` ou ```400 BAD REQUEST```
+
+## SecurePay
+
+### Créer une transaction
+Type : ```POST```
+
+URL : ```api/v1/securepay/payment/payload```
+
+Body:
+```json
+{
+  "amount":19,
+  "creditCard": {
+    "number": "4485678386265192",
+    "expiration": "2022-01-09T23:16:07.254959200+01:00[Europe/Paris]", 			
+    "cvv": 123
+  }
+}
+```
+
+
 # Axe d'amélioration
 
 Conscient que ce projet est loin d'être parfait, nous pouvons parfaitement améliorer certains points:
-
-- Mettre un peu plus d'annotation par exemple ```@Service```
-- Moins de dépendance circulaire entre les différents artefacts logiciels
-- Ajouter le schéma de l'``observer`` pour rendre plus qualitatif l'utilisation de l'fr.leprohon.esgi.al4.al.event bus.
-
-## Diagramme de classe
+- Problème lors de l'ajout d'un contrats: le contrat s'édite en deux fois.
+- Ajout de tests unitaires
+- Mise en place de l'architecture SEDA notamment pour securepay pour l'historisation des events.
+- Refactorisation notamment des entités, trop de getters et de setters liés à la dette technique du CC1
+- Un autre format de date pour la carte bleue
+# Diagramme de classe
 
 ![](java.png)
