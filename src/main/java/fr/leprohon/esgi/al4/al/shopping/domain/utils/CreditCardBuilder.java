@@ -10,17 +10,17 @@ public class CreditCardBuilder extends ContractBuilder {
     }
 
     public CreditCardBuilder cardNumber(String cn) {
-        this.contract.getUser().getCreditCard().setNumber(cn);
+        this.contract.getUser().setCreditCard(this.contract.getUser().getCreditCard().setNumber(cn));
         return this;
     }
 
     public CreditCardBuilder CVV(int cvv) {
-        this.contract.getUser().getCreditCard().setCVV(cvv);
+        this.contract.getUser().setCreditCard(this.contract.getUser().getCreditCard().setCVV(cvv));
         return this;
     }
 
     public CreditCardBuilder expirationDate(ZonedDateTime expiration) {
-        this.contract.getUser().getCreditCard().setExpiration(expiration);
+        this.contract.getUser().setCreditCard(this.contract.getUser().getCreditCard().setExpiration(expiration));
         return this;
     }
 

@@ -7,9 +7,9 @@ import java.time.ZonedDateTime;
 
 @Entity
 public final class CreditCard {
-    private String number;
-    private ZonedDateTime expiration;
-    private int CVV;
+    public final String number;
+    public final ZonedDateTime expiration;
+    public final int CVV;
 
     private CreditCard(String number, ZonedDateTime expiration, int CVV) {
         this.number = number;
@@ -30,28 +30,16 @@ public final class CreditCard {
         return new CreditCard(null, null, 0);
     }
 
-    public String getNumber() {
-        return number;
+    public CreditCard setNumber(String number) {
+        return CreditCard.of(number, this.expiration, this.CVV);
     }
 
-    public ZonedDateTime getExpiration() {
-        return expiration;
+    public CreditCard setExpiration(ZonedDateTime time) {
+        return CreditCard.of(this.number, time, this.CVV);
     }
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public void setExpiration(ZonedDateTime expiration) {
-        this.expiration = expiration;
-    }
-
-    public int getCVV() {
-        return CVV;
-    }
-
-    public void setCVV(int CVV) {
-        this.CVV = CVV;
+    public CreditCard setCVV(int CVV) {
+        return CreditCard.of(this.number, this.expiration, CVV);
     }
 
     @Override

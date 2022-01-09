@@ -11,7 +11,7 @@ public class CardTypeEngine {
     }
 
     public static CardType detect(CreditCard creditCard) {
-        String number = creditCard.getNumber();
+        String number = creditCard.number;
         String s = String.valueOf(number);
         if(s.startsWith("4")) {
             return CardType.VISA;

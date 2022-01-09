@@ -9,10 +9,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class InMemoryRepositoryAbstract<T> implements Repository<Integer, T> {
 
     private final AtomicInteger size = new AtomicInteger(0);
-    protected final Map<Integer, T> list = new ConcurrentHashMap<Integer, T>();
+    protected final Map<Integer, T> list = new ConcurrentHashMap<>();
 
     @Override
     public Integer nextId() {
+        return size.get() + 1;
+    }
+
+    public Integer putNextId() {
         return size.incrementAndGet();
     }
 
@@ -23,7 +27,7 @@ public abstract class InMemoryRepositoryAbstract<T> implements Repository<Intege
 
     @Override
     public void add(T entity) {
-        list.put(nextId(), entity);
+        list.put(putNextId(), entity);
     }
 
     @Override

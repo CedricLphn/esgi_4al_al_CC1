@@ -51,3 +51,4 @@ docker/ingestionPath/**
 docker/workingPath/**
 docker/rejectionPath/**
 
+/log.txt

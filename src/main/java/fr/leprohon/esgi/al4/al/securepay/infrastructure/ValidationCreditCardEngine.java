@@ -29,8 +29,8 @@ public class ValidationCreditCardEngine implements Predicate<CreditCard> {
 
         int sum = 0;
         boolean alternate = false;
-        for(int i = String.valueOf(card.getNumber()).length() - 1; i >= 0; i--) {
-            int n = Integer.parseInt(String.valueOf(card.getNumber()).substring(i, i+1));
+        for(int i = String.valueOf(card.number).length() - 1; i >= 0; i--) {
+            int n = Integer.parseInt(String.valueOf(card.number).substring(i, i+1));
             if(alternate) {
                 n *= 2;
                 if(n > 9) {

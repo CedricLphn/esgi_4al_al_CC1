@@ -4,6 +4,7 @@ import fr.leprohon.esgi.al4.al.kernel.annotations.Entity;
 import fr.leprohon.esgi.al4.al.shopping.domain.utils.ContractType;
 import fr.leprohon.esgi.al4.al.shopping.domain.utils.Status;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -12,6 +13,7 @@ public final class Contract {
     private ContractType type;
     private User user;
     private int amount;
+    private Date expiration;
     private Status paymentStatus;
 
     public ContractType getType() {
@@ -46,19 +48,31 @@ public final class Contract {
         this.paymentStatus = paymentStatus;
     }
 
-    @Override
-    public String toString() {
-        return "Contract{" +
-                "type=" + type +
-                ", user=" + user +
-                '}';
-    }
-
     public void setAmount(int amount) {
         this.amount = amount;
     }
 
     public int getAmount() {
         return amount;
+    }
+
+    public Date getExpiration() {
+        return expiration;
+    }
+
+    public void setExpiration(Date expiration) {
+        this.expiration = expiration;
+    }
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "id=" + id +
+                ", type=" + type +
+                ", user=" + user +
+                ", amount=" + amount +
+                ", expiration=" + expiration +
+                ", paymentStatus=" + paymentStatus +
+                '}';
     }
 }

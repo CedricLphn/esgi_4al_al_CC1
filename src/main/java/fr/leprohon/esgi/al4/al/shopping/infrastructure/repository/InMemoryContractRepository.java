@@ -5,9 +5,9 @@ import fr.leprohon.esgi.al4.al.kernel.exception.NoSuchEntityException;
 import fr.leprohon.esgi.al4.al.kernel.infrastructure.InMemoryRepositoryAbstract;
 import fr.leprohon.esgi.al4.al.shopping.domain.entity.Contract;
 import fr.leprohon.esgi.al4.al.shopping.domain.repository.ContractRepository;
+import fr.leprohon.esgi.al4.al.shopping.domain.utils.Status;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Repository(value = "Contract")
 public final class InMemoryContractRepository extends InMemoryRepositoryAbstract<Contract> implements ContractRepository {
@@ -32,5 +32,31 @@ public final class InMemoryContractRepository extends InMemoryRepositoryAbstract
         }
 
         throw new NoSuchEntityException(contractId.toString());
+    }
+
+    @Override
+    public List<Contract> findByStatus(Status status) {
+        final List<Contract> contracts = new ArrayList<>();
+        list.forEach((key, contract) -> {
+            if(contract.getPaymentStatus() == status) {
+                contracts.add(contract);
+            }
+        });
+        return contracts;
+    }
+
+    @Override
+    public List<Contract> findAllExpiredContract(Date currentDate) {
+
+        List<Contract> result = new ArrayList<>();
+
+        for(Map.Entry<Integer, Contract> contract : list.entrySet()) {
+            if(contract.getValue().getExpiration().compareTo(currentDate) <= 0) {
+                result.add(contract.getValue());
+            }
+        }
+
+
+        return result;
     }
 }

@@ -9,19 +9,14 @@ import java.util.UUID;
 @Entity
 public final class HistoryTransaction {
 
-    private UUID contractId;
+    private CreditCard contractId;
     private ZonedDateTime date;
-    private String firstName;
-    private String lastname;
     private float amount;
     private Status status;
 
-
-    public HistoryTransaction(UUID contractId, ZonedDateTime date, String firstName, String lastname, float amount, Status status) {
+    public HistoryTransaction(CreditCard contractId, ZonedDateTime date, float amount, Status status) {
         this.contractId = contractId;
         this.date = date;
-        this.firstName = firstName;
-        this.lastname = lastname;
         this.amount = amount;
         this.status = status;
     }
@@ -34,14 +29,6 @@ public final class HistoryTransaction {
         this.date = date;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
     public void setAmount(float amount) {
         this.amount = amount;
     }
@@ -50,35 +37,9 @@ public final class HistoryTransaction {
         return date;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
 
     public float getAmount() {
         return amount;
-    }
-
-    public UUID getContractId() {
-        return contractId;
-    }
-
-    public void setContractId(String contractId) {
-        this.contractId = UUID.fromString(contractId);
-    }
-
-    @Override
-    public String toString() {
-        return "HistoryTransaction{" +
-                "date=" + date +
-                ", firstName='" + firstName + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", amount=" + amount +
-                ", status=" + status +
-                '}';
     }
 
     public Status getStatus() {
@@ -87,5 +48,15 @@ public final class HistoryTransaction {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "HistoryTransaction{" +
+                "contractId=" + contractId +
+                ", date=" + date +
+                ", amount=" + amount +
+                ", status=" + status +
+                '}';
     }
 }

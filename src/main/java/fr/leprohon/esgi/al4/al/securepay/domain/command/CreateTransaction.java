@@ -1,19 +1,17 @@
 package fr.leprohon.esgi.al4.al.securepay.domain.command;
 
-import fr.leprohon.esgi.al4.al.securepay.domain.entity.HistoryTransaction;
-import fr.leprohon.esgi.al4.al.securepay.domain.repository.HistoryTransactionRepository;
+import fr.leprohon.esgi.al4.al.kernel.infrastructure.Command;
+import fr.leprohon.esgi.al4.al.securepay.domain.entity.CreditCard;
 
-public class CreateTransaction {
+import java.util.UUID;
 
-    private HistoryTransactionRepository repository;
+public class CreateTransaction implements Command {
 
-    public CreateTransaction(HistoryTransaction historyTransaction, HistoryTransactionRepository repository) {
-        //super(historyTransaction);
-        this.repository = repository;
-    }
+    public CreditCard creditCard;
+    public int amount;
 
-    public void handle() {
-        //repository.add(transaction);
-        //super.handle();
+    public CreateTransaction(CreditCard creditCard, int amount) {
+        this.creditCard = creditCard;
+        this.amount = amount;
     }
 }
